@@ -26,10 +26,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     # FFmpeg codec support
     libass-dev libfreetype6-dev libvorbis-dev \
     # MuJoCo display — EGL (headless GPU) + GLX (physical display)
-    libgl1-mesa-glx libgl1-mesa-dri \
+    # Note: libgl1-mesa-glx was removed in Ubuntu 24.04; use libglx-mesa0 instead
+    libgl1 libglx-mesa0 libgl1-mesa-dri \
     libglu1-mesa libglu1-mesa-dev \
     libglew-dev libglfw3-dev \
-    libgl1 libegl1 \
+    libegl1 libegl-mesa0 \
     # X11 (for interactive MuJoCo viewer via display/SSH -X)
     libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev \
     libx11-xcb1 libxcb-dri2-0 libxcb-dri3-0 libxcb-present0 \
@@ -85,6 +86,12 @@ ${LD_LIBRARY_PATH:-}"
 # ---------------------------------------------------------------------------
 ENV MUJOCO_GL=egl
 ENV PYOPENGL_PLATFORM=egl
+
+# ---------------------------------------------------------------------------
+# Copy scripts from this repo into the image
+# Files must live in the same directory as the Dockerfile (the build context)
+# ---------------------------------------------------------------------------
+COPY mujoco_viewer_demo.py /workspace/gr00t/mujoco_viewer_demo.py
 
 # ---------------------------------------------------------------------------
 # Apply Triton patch required for CUDA 13+ on Thor/Spark
