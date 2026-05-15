@@ -15,7 +15,7 @@ ENV UV_PROJECT_ENVIRONMENT=/opt/gr00t-venv
 # ---------------------------------------------------------------------------
 RUN apt-get update && apt-get install -y --no-install-recommends \
     # Core tools
-    git git-lfs curl ca-certificates tmux \
+    git git-lfs curl ca-certificates tmux sudo \
     # Build toolchain
     build-essential yasm cmake libtool pkg-config \
     autoconf automake texinfo \
